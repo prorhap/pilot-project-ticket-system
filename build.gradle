@@ -13,6 +13,9 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot' 
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
 
 jar {
     baseName = 'ticket'
@@ -34,9 +37,10 @@ dependencies {
     compile('org.projectlombok:lombok:1.16.6')
     compile('org.springframework.boot:spring-boot-starter-web')
 
+    runtime('com.h2database:h2')
+    
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
-    runtime('com.h2database:h2')
 }
 
 
@@ -46,6 +50,42 @@ eclipse {
          containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
     }
 }
+
+
+checkstyle {
+    toolVersion = '6.12'
+    configFile = file("${project.rootDir}/config/checkstyle/woowa_checks.xml")
+    sourceSets = [sourceSets.main, sourceSets.test]
+}
+
+checkstyleMain {
+    outputs.upToDateWhen { false }
+}
+
+checkstyleTest {
+    outputs.upToDateWhen { false }
+}
+
+pmd {
+    ruleSets = [
+        "java-basic",
+        "java-braces"
+    ]
+
+    sourceSets = [sourceSets.main, sourceSets.test]
+}
+
+findbugs {
+    sourceSets = [sourceSets.main, sourceSets.test]
+}
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
