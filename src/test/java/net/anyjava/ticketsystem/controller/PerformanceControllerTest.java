@@ -1,5 +1,6 @@
 package net.anyjava.ticketsystem.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -62,6 +64,41 @@ public class PerformanceControllerTest {
 
     }
 
+    @Test
+    public void testSelectOnePerformance() throws Exception {
+        // Given
 
+        // When
+        ResultActions perform = mockMvc.perform(
+                get("/performances/1"));
+
+        // Then
+        perform.andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+
+    @Test
+    public void testSelectAllPerformance() throws Exception {
+        // Given
+        PerformanceForm iuConcert
+                = PerformanceFormTest.getTestPerformanceForm();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(iuConcert);
+
+        mockMvc.perform(post("/performances")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(json));
+
+        // When
+        ResultActions perform = mockMvc.perform(
+                get("/performances"));
+
+        // Then
+        perform.andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
 
 }

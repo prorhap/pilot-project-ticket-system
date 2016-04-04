@@ -2,9 +2,12 @@ package net.anyjava.ticketsystem.service;
 
 import net.anyjava.ticketsystem.controller.form.PerformanceForm;
 import net.anyjava.ticketsystem.domain.Performance;
+import net.anyjava.ticketsystem.dto.PerformanceDto;
 import net.anyjava.ticketsystem.repository.PerformanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PerformanceService {
@@ -18,5 +21,11 @@ public class PerformanceService {
 
     public Performance findOne(Long performanceId) {
         return performanceRepository.findOne(performanceId);
+    }
+
+    public PerformanceDto findAll() {
+        List<Performance> performances = performanceRepository.findAll();
+
+        return new PerformanceDto(performances.size(), performances);
     }
 }

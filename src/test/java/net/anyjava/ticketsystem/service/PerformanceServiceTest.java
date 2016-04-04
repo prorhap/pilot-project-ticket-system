@@ -8,6 +8,7 @@ import net.anyjava.TicketApplication;
 import net.anyjava.ticketsystem.controller.form.PerformanceForm;
 import net.anyjava.ticketsystem.controller.form.PerformanceFormTest;
 import net.anyjava.ticketsystem.domain.Performance;
+import net.anyjava.ticketsystem.dto.PerformanceDto;
 import net.anyjava.ticketsystem.repository.PerformanceRepository;
 
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import javax.transaction.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -64,5 +66,21 @@ public class PerformanceServiceTest {
 
     }
 
+    @Test
+    @Transactional
+    public void testFindAllPerformance() {
+
+        // Given
+        PerformanceForm performanceForm
+                = PerformanceFormTest.getTestPerformanceForm();
+        performanceService.save(performanceForm);
+
+        // When
+        PerformanceDto performanceDto = performanceService.findAll();
+
+        // Then
+        assertThat(1L, equalTo(performanceDto.getTotalCount()));
+
+    }
 
 }
