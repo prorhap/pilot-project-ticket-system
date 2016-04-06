@@ -1,9 +1,12 @@
 package net.anyjava.ticketsystem.service;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import net.anyjava.TicketApplication;
 import net.anyjava.ticketsystem.controller.form.PerformanceFormTest;
-import net.anyjava.ticketsystem.domain.Performance;
 import net.anyjava.ticketsystem.domain.Member;
+import net.anyjava.ticketsystem.domain.Performance;
 import net.anyjava.ticketsystem.domain.Ticket;
 import net.anyjava.ticketsystem.repository.PerformanceRepository;
 
@@ -15,9 +18,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 /**
  * Created by anyjava on 2016. 4. 7..
@@ -38,6 +38,9 @@ public class ReservationServiceTest {
     private Member member;
     private Performance performance;
 
+    /**
+     * 사전작업 공연생성 및 회원생성
+     */
     @Before
     public void setUp() {
         // 공연생성
