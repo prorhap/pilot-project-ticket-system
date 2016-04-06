@@ -26,4 +26,5 @@ public class Ticket {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PERFORMANCE_ID")
     private Performance performance;
+
 }

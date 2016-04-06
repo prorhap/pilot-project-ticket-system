@@ -22,7 +22,7 @@ public class PerformanceFormTest {
         performanceForm.setStartDay(1);
         performanceForm.setReservationStartYear(2016);
         performanceForm.setReservationStartMonth(4);
-        performanceForm.setReservationStartDay(15);
+        performanceForm.setReservationStartDay(1);
         performanceForm.setReservationStartHour(14);
         performanceForm.setReservationStartMinute(00);
         performanceForm.setTotalTicketCount(100);
