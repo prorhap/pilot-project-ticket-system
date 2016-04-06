@@ -23,6 +23,10 @@ public class PerformanceService {
         return performanceRepository.findOne(performanceId);
     }
 
+    /**
+     * 모든 공연 조회
+     * @return 공연리스트
+     */
     public PerformanceDto findAll() {
         List<Performance> performances = performanceRepository.findAll();
 
