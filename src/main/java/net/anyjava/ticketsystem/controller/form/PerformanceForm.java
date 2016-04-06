@@ -7,6 +7,7 @@ import net.anyjava.ticketsystem.domain.Performance;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import javax.validation.constraints.NotNull;
 
 @Setter
@@ -57,9 +58,9 @@ public class PerformanceForm {
 
         performance.setTotalTicketCount(this.getTotalTicketCount());
         performance.setStartDate(
-                LocalDate.of(getStartYear(), getStartMonth(), getStartDay()));
+                new Date(getStartYear(), getStartMonth(), getStartDay()));
         performance.setReservationStartDateTime(
-                LocalDateTime.of(getReservationStartYear(),
+                new Date(getReservationStartYear(),
                         getReservationStartMonth(),
                         getReservationStartDay(),
                         getReservationStartHour(),

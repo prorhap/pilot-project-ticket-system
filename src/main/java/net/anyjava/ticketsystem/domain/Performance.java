@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -33,10 +36,12 @@ public class Performance {
     private String title;
 
     @NotNull
-    private LocalDate startDate;
+    @Temporal(TemporalType.DATE)
+    private Date startDate;
 
     @NotNull
-    private LocalDateTime reservationStartDateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date reservationStartDateTime;
 
     @NotNull
     private int totalTicketCount;

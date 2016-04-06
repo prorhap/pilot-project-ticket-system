@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class ReservationService {
         Performance bookablePerformance = performanceRepository
                 .findByBookablePerformance(
                         performanceId,
-                        LocalDateTime.now());
+                        new Date());
 
         if (bookablePerformance == null) {
             throw new RuntimeException("예매할수 없습니다.");

@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,9 +31,9 @@ public class PerformanceTest {
         Performance performance
                 = Performance.createPerformance("아이유 콘서트", 100);
 
-        performance.setStartDate(LocalDate.of(2016, 5, 1));
+        performance.setStartDate(new Date(2016, 5, 1));
         performance.setReservationStartDateTime(
-                LocalDateTime.of(2016, 4, 10, 10, 00, 00));
+                new Date(2016, 4, 10, 10, 00, 00));
         performance.setTotalTicketCount(100);
 
         em.persist(performance);

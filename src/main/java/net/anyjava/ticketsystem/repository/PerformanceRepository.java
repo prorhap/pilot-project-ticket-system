@@ -5,9 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Date;
 
 // TODO : 질문 ? sevice에서 repository ? service -> service -> respository ?
 public interface PerformanceRepository
@@ -16,5 +14,5 @@ public interface PerformanceRepository
     @Query("SELECT p FROM Performance p JOIN FETCH p.tickets "
             + "WHERE p.id = :id AND p.reservationStartDateTime <= :now")
     Performance findByBookablePerformance(@Param("id") long id,
-                                          @Param("now") LocalDateTime now);
+                                          @Param("now") Date now);
 }

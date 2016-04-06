@@ -15,6 +15,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TicketApplication.class)
@@ -36,7 +37,7 @@ public class PerformanceRepositoryTest {
         // When
         Performance notBookablePerformance =
                 performanceRepository.findByBookablePerformance(
-                        id, LocalDateTime.of(2015, 1, 1, 00, 00, 00));
+                        id, new Date());
 
         // Then
         assertEquals("예매 가능하지 않은 공연테스트", null, notBookablePerformance);
@@ -44,7 +45,7 @@ public class PerformanceRepositoryTest {
         // When
         Performance bookablePerformance =
                 performanceRepository.findByBookablePerformance(
-                        id, LocalDateTime.now());
+                        id, new Date());
 
         // Then
         assertThat("예매 가능한 공연테스트", bookablePerformance, is(notNullValue()));
