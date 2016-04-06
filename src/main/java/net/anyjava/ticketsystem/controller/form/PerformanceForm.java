@@ -52,7 +52,9 @@ public class PerformanceForm {
      */
     public Performance getEntity() {
         Performance performance
-                = Performance.createPerformance(this.getTitle());
+                = Performance.createPerformance(this.getTitle(),
+                        this.totalTicketCount);
+
         performance.setTotalTicketCount(this.getTotalTicketCount());
         performance.setStartDate(
                 LocalDate.of(getStartYear(), getStartMonth(), getStartDay()));

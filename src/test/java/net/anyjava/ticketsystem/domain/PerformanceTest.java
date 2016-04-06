@@ -27,7 +27,8 @@ public class PerformanceTest {
     @Test
     public void testCreateEntity() {
 
-        Performance performance = Performance.createPerformance("아이유 콘서트");
+        Performance performance
+                = Performance.createPerformance("아이유 콘서트", 100);
 
         performance.setStartDate(LocalDate.of(2016, 5, 1));
         performance.setReservationStartDateTime(
