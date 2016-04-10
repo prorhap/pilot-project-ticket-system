@@ -3,6 +3,8 @@ package net.anyjava.ticketsystem.controller.form;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.anyjava.ticketsystem.domain.Performance;
 import org.junit.Test;
 
@@ -25,16 +27,21 @@ public class PerformanceFormTest {
         performanceForm.setReservationStartDay(1);
         performanceForm.setReservationStartHour(14);
         performanceForm.setReservationStartMinute(00);
-        performanceForm.setTotalTicketCount(100);
+        performanceForm.setTotalTicketCount(10);
 
         return performanceForm;
     }
 
     @Test
-    public void testCreateEntity() {
+    public void testCreateEntityByForm() throws JsonProcessingException {
         // Given
         PerformanceForm performanceForm
                 = PerformanceFormTest.getTestPerformanceForm();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(performanceForm);
+
+        System.out.println("json = " + json);
 
         // When
         Performance performance = performanceForm.getEntity();

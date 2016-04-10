@@ -28,16 +28,22 @@ public class PerformanceTest {
     public void testCreateEntity() {
 
         Performance performance
-                = Performance.createPerformance("아이유 콘서트", 100);
+                = Performance.createPerformance("아이유 콘서트", 10);
 
         performance.setStartDate(LocalDate.of(2016, 5, 1));
         performance.setReservationStartDateTime(
                 LocalDateTime.of(2016, 4, 10, 10, 00, 00));
-        performance.setTotalTicketCount(100);
 
         em.persist(performance);
+        em.flush();
+        em.clear();
 
-        assertEquals("아이유 콘서트", performance.getTitle());
+        Performance readedPerformance
+                = em.find(Performance.class, performance.getId());
+
+        assertEquals("아이유 콘서트", readedPerformance.getTitle());
+        assertEquals("Ticket 생성 테스트",
+                10, readedPerformance.getTickets().size());
     }
 
 }

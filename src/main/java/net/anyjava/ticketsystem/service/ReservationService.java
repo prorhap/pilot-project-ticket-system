@@ -1,7 +1,9 @@
 package net.anyjava.ticketsystem.service;
 
+import net.anyjava.ticketsystem.domain.Member;
 import net.anyjava.ticketsystem.domain.Performance;
 import net.anyjava.ticketsystem.domain.Ticket;
+import net.anyjava.ticketsystem.repository.MemberRepository;
 import net.anyjava.ticketsystem.repository.PerformanceRepository;
 import net.anyjava.ticketsystem.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ReservationService {
     private PerformanceRepository performanceRepository;
 
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     private TicketRepository ticketRepository;
 
     /**
@@ -36,6 +41,8 @@ public class ReservationService {
     public List<Ticket> reserveTicket(
             long performanceId, long memberId, int countOfReserveTicket) {
 
+        Member member = memberRepository.findOne(memberId);
+
         Performance bookablePerformance = performanceRepository
                 .findByBookablePerformance(
                         performanceId,
@@ -45,15 +52,10 @@ public class ReservationService {
             throw new RuntimeException("예매할수 없습니다.");
         }
 
+
         // TODO : 죄악을 저지르자. 무조건 3개를 가져오지만,, 선점되지 않은 3개를 리턴해야함.
-        List<Ticket> tickets = bookablePerformance.getTickets();
-
-        List<Ticket> bookedTickets = new ArrayList<>(countOfReserveTicket);
-
-        for (Ticket ticket :
-                tickets) {
-            bookedTickets.add(ticket);
-        }
+        List<Ticket> bookedTickets
+                = bookablePerformance.getTickets(member, countOfReserveTicket);
 
         return bookedTickets;
     }

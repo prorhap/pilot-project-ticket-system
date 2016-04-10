@@ -10,9 +10,12 @@ import net.anyjava.ticketsystem.controller.form.PerformanceFormTest;
 import net.anyjava.ticketsystem.domain.Performance;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +23,14 @@ import java.time.LocalDateTime;
 @SpringApplicationConfiguration(classes = TicketApplication.class)
 public class PerformanceRepositoryTest {
 
+    private static final Logger logger
+            = LoggerFactory.getLogger(PerformanceRepositoryTest.class);
+
     @Autowired
     private PerformanceRepository performanceRepository;
 
     @Test
+    @Transactional
     public void testNotExistBookablePerformance() {
         // Given
         // 공연생성
@@ -32,6 +39,8 @@ public class PerformanceRepositoryTest {
         performanceRepository.save(performance);
 
         long id = (long) performance.getId();
+
+        logger.debug("id = " + id);
 
         // When
         Performance notBookablePerformance =

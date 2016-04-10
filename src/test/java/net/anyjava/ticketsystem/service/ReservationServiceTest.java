@@ -16,7 +16,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,6 +57,7 @@ public class ReservationServiceTest {
     }
 
     @Test
+    @Transactional
     public void testReserveTicket() {
 
         // Given
@@ -72,10 +75,10 @@ public class ReservationServiceTest {
         assertThat("티케 예매 3장 성공 테스트",
                 countOfReserveTicket, equalTo(reservedTickets.size()));
 
-
     }
 
     @Test
+    @Transactional
     public void testReserveTicketOutOfDate() {
 
 

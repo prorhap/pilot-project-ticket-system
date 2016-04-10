@@ -13,7 +13,7 @@ import java.util.List;
 public interface PerformanceRepository
         extends JpaRepository<Performance, Long> {
 
-    @Query("SELECT p FROM Performance p JOIN FETCH p.tickets "
+    @Query("SELECT p FROM Performance p "
             + "WHERE p.id = :id AND p.reservationStartDateTime <= :now")
     Performance findByBookablePerformance(@Param("id") long id,
                                           @Param("now") LocalDateTime now);

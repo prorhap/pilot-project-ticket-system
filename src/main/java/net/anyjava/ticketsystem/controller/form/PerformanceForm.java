@@ -1,6 +1,7 @@
 package net.anyjava.ticketsystem.controller.form;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import net.anyjava.ticketsystem.domain.Performance;
@@ -50,12 +51,12 @@ public class PerformanceForm {
      * Performance Entity를 만듬
      * @return Performance
      */
+    @JsonIgnore
     public Performance getEntity() {
         Performance performance
                 = Performance.createPerformance(this.getTitle(),
                         this.totalTicketCount);
 
-        performance.setTotalTicketCount(this.getTotalTicketCount());
         performance.setStartDate(
                 LocalDate.of(getStartYear(), getStartMonth(), getStartDay()));
         performance.setReservationStartDateTime(

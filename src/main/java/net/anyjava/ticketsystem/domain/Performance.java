@@ -1,17 +1,16 @@
 package net.anyjava.ticketsystem.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,8 +43,9 @@ public class Performance {
     @NotNull
     private int ticketPrice;
 
-    @OneToMany(mappedBy = "performance")
-    private List<Ticket> tickets;
+    @JsonIgnore
+    @OneToMany(mappedBy = "performance", cascade = CascadeType.PERSIST)
+    private List<Ticket> tickets = new ArrayList<>();
 
     /**
      * Performance 를 생성하는 Factory Method
@@ -59,12 +59,40 @@ public class Performance {
         performance.setTitle(title);
         performance.setTotalTicketCount(totalTicketCount);
 
-        List<Ticket> tikects = new ArrayList<>(totalTicketCount);
-        Collections.fill(tikects, new Ticket());
-
-        performance.setTickets(tikects);
-
+        for (int i = 0; i < totalTicketCount; ++i) {
+            performance.setTicket(new Ticket());
+        }
         return performance;
     }
 
+    /**
+     * TODO : 중복 체크 추가 필요
+     * @param ticket Ticket
+     */
+    public void setTicket(Ticket ticket) {
+
+        this.tickets.add(ticket);
+
+        if (ticket.getPerformance() != this) {
+            ticket.setPerformance(this);
+        }
+    }
+
+    /**
+     * 회원을 받아서 해당 회원이 티켓을 예매 하도록 한다
+     * @param member  회원
+     * @param countOfReserveTicket 예매할 티켓수
+     * @return 예매된 티켓 리스트
+     */
+    public List<Ticket> getTickets(Member member, int countOfReserveTicket) {
+        // TODO : 예약안된것 만 가져오도록 추가
+        List<Ticket> bookTickets = new ArrayList<>(countOfReserveTicket);
+
+        for (int i = 0; i < countOfReserveTicket; ++i) {
+            Ticket ticket = this.tickets.get(i);
+            ticket.setMember(member);
+            bookTickets.add(this.tickets.get(i));
+        }
+        return bookTickets;
+    }
 }

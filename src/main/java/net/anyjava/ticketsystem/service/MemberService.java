@@ -4,6 +4,7 @@ import net.anyjava.ticketsystem.domain.Member;
 import net.anyjava.ticketsystem.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class MemberService {
      * @param member 회원 엔티티
      * @return 가입한 회원정보
      */
+    @Transactional
     public Member join(Member member) {
         List<Member> members
                 = memberRepository.findByEmailEquals(member.getEmail());
