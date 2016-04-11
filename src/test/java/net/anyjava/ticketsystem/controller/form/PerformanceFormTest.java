@@ -6,6 +6,8 @@ import static org.junit.Assert.assertThat;
 import net.anyjava.ticketsystem.domain.Performance;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 public class PerformanceFormTest {
@@ -15,19 +17,18 @@ public class PerformanceFormTest {
      * @return PerformanceForm
      */
     public static PerformanceForm getTestPerformanceForm() {
-        PerformanceForm performanceForm = new PerformanceForm();
-        performanceForm.setTitle("아이유 콘서트");
-        performanceForm.setStartYear(2016);
-        performanceForm.setStartMonth(5);
-        performanceForm.setStartDay(1);
-        performanceForm.setReservationStartYear(2016);
-        performanceForm.setReservationStartMonth(4);
-        performanceForm.setReservationStartDay(1);
-        performanceForm.setReservationStartHour(14);
-        performanceForm.setReservationStartMinute(00);
-        performanceForm.setTotalTicketCount(100);
+        try {
+            PerformanceForm performanceForm = new PerformanceForm();
+            performanceForm.setTitle("아이유 콘서트");
 
-        return performanceForm;
+            performanceForm.setStartDate(new SimpleDateFormat("yyyy/MM/dd").parse("2016/05/01"));
+            performanceForm.setTicketOpenDate(new SimpleDateFormat("yyyy/MM/dd HH:mm").parse("2016/04/01 14:00"));
+            performanceForm.setTotalTicketCount(100);
+            return performanceForm;
+        }catch(ParseException e) {
+            throw new RuntimeException("Exception while parsing date format", e);
+        }
+
     }
 
     @Test
@@ -37,7 +38,7 @@ public class PerformanceFormTest {
                 = PerformanceFormTest.getTestPerformanceForm();
 
         // When
-        Performance performance = performanceForm.getEntity();
+        Performance performance = Performance.of(performanceForm);
 
         // Then
         assertThat(LocalDate.of(2016, 5, 1),

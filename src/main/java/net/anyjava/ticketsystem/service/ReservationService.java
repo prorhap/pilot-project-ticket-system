@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,9 +37,7 @@ public class ReservationService {
             long performanceId, long memberId, int countOfReserveTicket) {
 
         Performance bookablePerformance = performanceRepository
-                .findByBookablePerformance(
-                        performanceId,
-                        new Date());
+                .findPerforformanceByTicketOpenDate(new Date()).get(0);
 
         if (bookablePerformance == null) {
             throw new RuntimeException("예매할수 없습니다.");

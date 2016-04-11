@@ -1,9 +1,8 @@
 package net.anyjava.ticketsystem.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 import net.anyjava.ticketsystem.domain.Performance;
 
@@ -13,8 +12,7 @@ import java.util.List;
 /**
  * Created by anyjava on 2016. 4. 5..
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString

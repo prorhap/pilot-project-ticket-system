@@ -41,7 +41,7 @@ public class ReservationServiceTest {
     @Before
     public void setUp() {
         // 공연생성
-        performance = PerformanceFormTest.getTestPerformanceForm().getEntity();
+        performance = Performance.of(PerformanceFormTest.getTestPerformanceForm());
         performanceRepository.save(performance);
 
         member = new Member();

@@ -1,30 +1,18 @@
 package net.anyjava.ticketsystem.domain;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import net.anyjava.ticketsystem.controller.form.PerformanceForm;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 @Entity
-@Setter
-@Getter
+@Data
 public class Performance {
 
 
@@ -41,7 +29,7 @@ public class Performance {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date reservationStartDateTime;
+    private Date ticketOpenDate;
 
     @NotNull
     private int totalTicketCount;
@@ -52,19 +40,15 @@ public class Performance {
     @OneToMany(mappedBy = "performance")
     private List<Ticket> tickets;
 
-    /**
-     * Performance 를 생성하는 Factory Method
-     * @param title 공연이름
-     * @param totalTicketCount 발행 티켓 수
-     * @return Performance
-     */
-    public static Performance createPerformance(String title,
-                                                int totalTicketCount) {
+    public static Performance of(PerformanceForm performanceForm) {
         Performance performance = new Performance();
-        performance.setTitle(title);
-        performance.setTotalTicketCount(totalTicketCount);
 
-        List<Ticket> tikects = new ArrayList<>(totalTicketCount);
+        performance.setStartDate(performanceForm.getStartDate());
+        performance.setTicketOpenDate(performanceForm.getTicketOpenDate());
+        performance.setTitle(performanceForm.getTitle());
+        performance.setTotalTicketCount(performanceForm.getTotalTicketCount());
+
+        List<Ticket> tikects = new ArrayList<>(performanceForm.getTotalTicketCount());
         Collections.fill(tikects, new Ticket());
 
         performance.setTickets(tikects);

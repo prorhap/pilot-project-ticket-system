@@ -28,12 +28,11 @@ public class PerformanceTest {
     @Test
     public void testCreateEntity() {
 
-        Performance performance
-                = Performance.createPerformance("아이유 콘서트", 100);
+        Performance performance = new Performance();
 
+        performance.setTitle("아이유 콘서트");
         performance.setStartDate(new Date(2016, 5, 1));
-        performance.setReservationStartDateTime(
-                new Date(2016, 4, 10, 10, 00, 00));
+        performance.setTicketOpenDate(new Date(2016, 4, 10, 10, 00, 00));
         performance.setTotalTicketCount(100);
 
         em.persist(performance);

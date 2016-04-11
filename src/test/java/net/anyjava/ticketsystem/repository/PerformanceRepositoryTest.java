@@ -1,10 +1,5 @@
 package net.anyjava.ticketsystem.repository;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertEquals;
-
 import net.anyjava.TicketApplication;
 import net.anyjava.ticketsystem.controller.form.PerformanceFormTest;
 import net.anyjava.ticketsystem.domain.Performance;
@@ -14,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TicketApplication.class)
@@ -25,32 +23,27 @@ public class PerformanceRepositoryTest {
     private PerformanceRepository performanceRepository;
 
     @Test
-    public void testNotExistBookablePerformance() {
+    public void testNotExistBookablePerformance() throws Exception {
         // Given
         // 공연생성
-        Performance performance =
-                PerformanceFormTest.getTestPerformanceForm().getEntity();
+        Performance performance = Performance.of(PerformanceFormTest.getTestPerformanceForm());
         performanceRepository.save(performance);
 
         long id = (long) performance.getId();
 
         // When
-        Performance notBookablePerformance =
-                performanceRepository.findByBookablePerformance(
-                        id, new Date());
+        List<Performance> notBookablePerformance =
+                performanceRepository.findPerforformanceByTicketOpenDate(new SimpleDateFormat("yyyy/MM/dd").parse("2016/03/30"));
 
         // Then
-        assertEquals("예매 가능하지 않은 공연테스트", null, notBookablePerformance);
+        assertEquals("예매 가능하지 않은 공연테스트", 0, notBookablePerformance.size());
 
         // When
-        Performance bookablePerformance =
-                performanceRepository.findByBookablePerformance(
-                        id, new Date());
+        List<Performance> bookablePerformance =
+                performanceRepository.findPerforformanceByTicketOpenDate(new Date());
 
         // Then
-        assertThat("예매 가능한 공연테스트", bookablePerformance, is(notNullValue()));
+        assertEquals("예매 가능한 공연테스트", 1, bookablePerformance.size());
+        assertEquals("예매 가능한 공연테스트", "아이유 콘서트", bookablePerformance.get(0).getTitle());
     }
-
-
-
 }

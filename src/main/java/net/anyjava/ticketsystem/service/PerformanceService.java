@@ -16,7 +16,7 @@ public class PerformanceService {
     private PerformanceRepository performanceRepository;
 
     public Performance save(PerformanceForm performanceForm) {
-        return performanceRepository.save(performanceForm.getEntity());
+        return performanceRepository.save(Performance.of(performanceForm));
     }
 
     public Performance findOne(Long performanceId) {

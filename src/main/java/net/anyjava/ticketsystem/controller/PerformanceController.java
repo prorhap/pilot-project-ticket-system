@@ -7,6 +7,8 @@ import net.anyjava.ticketsystem.controller.form.PerformanceForm;
 import net.anyjava.ticketsystem.domain.Performance;
 import net.anyjava.ticketsystem.dto.PerformanceDto;
 import net.anyjava.ticketsystem.service.PerformanceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/performances")
 public class PerformanceController {
 
+    private final static Logger logger = LoggerFactory.getLogger(PerformanceController.class);
+
     @Autowired
     private PerformanceService performanceService;
 
     @RequestMapping(method = POST)
     public Performance registerPerformance(
-            @RequestBody PerformanceForm performance) {
-        return performanceService.save(performance);
+            @RequestBody PerformanceForm performanceForm) {
+
+        logger.info("-c-> register performance: {}", performanceForm);
+
+        return performanceService.save(performanceForm);
     }
 
     @RequestMapping(method = GET)
